@@ -14,11 +14,11 @@ public class FluxAndMonoGeneratorService {
                 .subscribe(System.out::println);
     }
 
-    private Flux<String> getFluxNames() {
+    public Flux<String> getFluxNames() {
         return Flux.fromIterable(List.of("Katerina", "Pam", "Frodo"));
     }
 
-    private Mono<String> getMonoName() {
+    public Mono<String> getMonoName() {
         return Mono.just("Aman");
     }
 
