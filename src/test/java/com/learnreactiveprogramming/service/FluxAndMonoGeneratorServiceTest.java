@@ -36,4 +36,12 @@ public class FluxAndMonoGeneratorServiceTest {
                 .expectNext("AUGUST", "HERA","ANNET")
                 .verifyComplete();
     }
+
+    @Test
+    void getNamesImmutabilitySample_shouldReturn_lowercaseNames() {
+        var name = generatorService.getNamesImmutabilitySample();
+        StepVerifier.create(name)
+                .expectNext("Olesya, Umka, Petr")
+                .verifyComplete();
+    }
 }

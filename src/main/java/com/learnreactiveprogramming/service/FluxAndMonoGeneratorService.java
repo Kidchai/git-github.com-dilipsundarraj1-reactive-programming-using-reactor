@@ -30,4 +30,11 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    // Streams are immutable!
+    public Flux<String> getNamesImmutabilitySample() {
+        var names = Flux.fromIterable(List.of("Olesya, Umka, Petr"));
+        names.map(String::toUpperCase);
+        return names;
+    }
+
 }
