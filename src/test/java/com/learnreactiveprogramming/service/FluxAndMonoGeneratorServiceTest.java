@@ -7,8 +7,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import reactor.test.StepVerifier;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class FluxAndMonoGeneratorServiceTest {
     FluxAndMonoGeneratorService generatorService = new FluxAndMonoGeneratorService();
@@ -20,6 +24,7 @@ public class FluxAndMonoGeneratorServiceTest {
                 .expectNextCount(3)
                 .verifyComplete();
     }
+
     @Test
     void getFluxNames_shouldReturn_namesInCorrectOrder() {
         var names = generatorService.getFluxNames();
@@ -40,7 +45,7 @@ public class FluxAndMonoGeneratorServiceTest {
     void getUppercaseNames_shouldReturn_uppercaseNames() {
         var names = generatorService.getUppercaseNames();
         StepVerifier.create(names)
-                .expectNext("AUGUST", "HERA","ANNET")
+                .expectNext("AUGUST", "HERA", "ANNET")
                 .verifyComplete();
     }
 
@@ -66,4 +71,27 @@ public class FluxAndMonoGeneratorServiceTest {
                 Arguments.of(5, List.of("Sam", "Kate", "David")),
                 Arguments.of(11, List.of("Sam", "Kate", "David", "Veronika", "Anastasia", "Bartholomew")));
     }
+
+    @Test
+    void getSquaredNumbersSync_shouldReturn_orderedSquares() {
+        var squares = generatorService.getSquaredNumbersSync();
+        StepVerifier.create(squares)
+                .expectNext(1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+                .verifyComplete();
+    }
+
+    @Test
+    void getSquaredNumbersSync_shouldReturn_unOrderedSquares() {
+        var orderedList = List.of(1, 4, 9, 16, 25, 36, 49, 64, 81, 100);
+        var squares = generatorService.getSquaredNumbersAsync();
+        squares.collectList()
+                .subscribe(list -> assertNotEquals(list, orderedList));
+
+        var sortedSquares = squares.sort(Comparator.naturalOrder());
+
+        StepVerifier.create(sortedSquares)
+                .expectNextSequence(orderedList)
+                .verifyComplete();
+    }
+
 }
