@@ -28,4 +28,12 @@ public class FluxAndMonoGeneratorServiceTest {
                 .expectNext("Aman")
                 .verifyComplete();
     }
+
+    @Test
+    void getUppercaseNames_shouldReturn_uppercaseNames() {
+        var name = generatorService.getUppercaseNames();
+        StepVerifier.create(name)
+                .expectNext("AUGUST", "HERA","ANNET")
+                .verifyComplete();
+    }
 }

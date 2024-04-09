@@ -12,6 +12,8 @@ public class FluxAndMonoGeneratorService {
                 .subscribe(System.out::println);
         generatorService.getMonoName()
                 .subscribe(System.out::println);
+        generatorService.getUppercaseNames()
+                .subscribe(System.out::println);
     }
 
     public Flux<String> getFluxNames() {
@@ -20,6 +22,12 @@ public class FluxAndMonoGeneratorService {
 
     public Mono<String> getMonoName() {
         return Mono.just("Aman");
+    }
+
+    public Flux<String> getUppercaseNames() {
+        return Flux.fromIterable(List.of("August", "Hera", "Annet"))
+                .map(String::toUpperCase)
+                .log();
     }
 
 }
