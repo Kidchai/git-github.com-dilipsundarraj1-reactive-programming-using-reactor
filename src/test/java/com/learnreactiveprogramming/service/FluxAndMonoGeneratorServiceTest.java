@@ -94,4 +94,12 @@ public class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
     }
 
+    @Test
+    void getSquaredNumbersWithConcatMap_shouldReturn_originalOrder() {
+        var squares = generatorService.getSquaredNumbersWithConcatMap();
+        StepVerifier.create(squares)
+                .expectNext(1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+                .verifyComplete();
+    }
+
 }

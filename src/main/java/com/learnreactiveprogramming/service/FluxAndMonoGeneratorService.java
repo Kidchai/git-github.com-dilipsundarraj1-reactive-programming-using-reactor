@@ -59,4 +59,13 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    /* concatMap - asynchronous transformation. Transforms each element into a Publisher, then unites them into one Flux.
+    But handle elements one by one => keeps an original order */
+    public Flux<Integer> getSquaredNumbersWithConcatMap() {
+        return Flux.fromIterable(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+                .concatMap(n -> Mono.just(n * n)
+                        .delayElement(Duration.ofMillis(100 )))
+                .log();
+    }
+
 }
