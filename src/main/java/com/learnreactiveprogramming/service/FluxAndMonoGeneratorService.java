@@ -37,4 +37,9 @@ public class FluxAndMonoGeneratorService {
         return names;
     }
 
+    public Flux<String> getNamesWithMaxLength(int maxLength) {
+        return Flux.fromIterable(List.of("Sam", "Kate", "David", "Veronika", "Anastasia", "Bartholomew", "Ramachandran"))
+                .filter(name -> name.length() <= maxLength);
+    }
+
 }
