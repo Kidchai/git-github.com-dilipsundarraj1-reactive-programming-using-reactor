@@ -5,6 +5,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Function;
 
 public class FluxAndMonoGeneratorService {
     public static void main(String[] args) {
@@ -65,6 +66,16 @@ public class FluxAndMonoGeneratorService {
         return Flux.fromIterable(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
                 .concatMap(n -> Mono.just(n * n)
                         .delayElement(Duration.ofMillis(100 )))
+                .log();
+    }
+
+    // transform() accept functional interface Function as parameter, your bro for encapsulation
+    public Flux<String> getUppercaseNamesWithMaxLength(int maxLength) {
+        Function<Flux<String>, Flux<String>> myTransformation = name -> name.filter(s -> s.length() <= maxLength)
+                .map(String::toUpperCase);
+
+        return Flux.fromIterable(List.of("Sam", "Kate", "David", "Veronika", "Anastasia", "Bartholomew"))
+                .transform(myTransformation)
                 .log();
     }
 

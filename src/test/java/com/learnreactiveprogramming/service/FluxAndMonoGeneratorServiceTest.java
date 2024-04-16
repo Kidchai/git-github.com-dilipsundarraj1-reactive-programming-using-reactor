@@ -102,4 +102,12 @@ public class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
     }
 
+    @Test
+    void getUppercaseNamesWithMaxLength_with_maxLength_5_shouldReturn_3_names() {
+        var flux = generatorService.getUppercaseNamesWithMaxLength(5);
+        StepVerifier.create(flux)
+                .expectNextCount(3)
+                .verifyComplete();
+    }
+
 }
