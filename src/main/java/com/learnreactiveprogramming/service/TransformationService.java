@@ -13,14 +13,6 @@ public class TransformationService {
         var withFlatMapMany = transformationService.transformToMonoWithFlatMapMany(getMono());
         System.out.println("With flatMapMany:");
         withFlatMapMany.subscribe(System.out::println);
-
-        System.out.println("method concat:");
-        transformationService.concat1()
-                .subscribe(System.out::println);
-
-        System.out.println("method concatWith:");
-        transformationService.concat2()
-                .subscribe(System.out::println);
     }
 
     // Transform object to flux without modifying its data
@@ -37,18 +29,4 @@ public class TransformationService {
         return Mono.just("Robert");
     }
 
-    public Flux<String> concat1() {
-        var stream1 = Mono.just("A");
-        var stream2 = Flux.just("B", "C");
-        var stream3 = Mono.just("D");
-
-        return Flux.concat(stream1, stream2, stream3);
-    }
-
-    public Flux<String> concat2() {
-        var stream1 = Mono.just("A");
-        var stream2 = Flux.just("B", "C");
-
-        return stream1.concatWith(stream2);
-    }
 }
