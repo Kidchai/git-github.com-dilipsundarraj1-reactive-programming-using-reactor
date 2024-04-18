@@ -16,6 +16,8 @@ public class FluxAndMonoGeneratorService {
                 .subscribe(System.out::println);
         generatorService.getUppercaseNames()
                 .subscribe(System.out::println);
+        generatorService.demonstrateDoOnMethods()
+                .subscribe();
     }
 
     public Flux<String> getFluxNames() {
@@ -77,6 +79,14 @@ public class FluxAndMonoGeneratorService {
         return Flux.fromIterable(List.of("Sam", "Kate", "David", "Veronika", "Anastasia", "Bartholomew"))
                 .transform(myTransformation)
                 .log();
+    }
+
+    public Flux<String> demonstrateDoOnMethods() {
+        return Flux.fromIterable(List.of("Sam", "Kate", "David"))
+                .doOnSubscribe(s -> System.out.println("Doing on subscription. Subscribed on: " + s))
+                .doOnNext(name -> System.out.println("Doing on next. Current name: " + name))
+                .doOnComplete(() -> System.out.println("Doing on complete. Completed"))
+                .doFinally(signalType -> System.out.println("Doing finally. This will be triggered after events terminate for any reason. Signal type: " + signalType));
     }
 
 }
